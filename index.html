@@ -111,6 +111,12 @@
         .memory-card-front { background-color: #fecdd3; transform: rotateY(0deg); font-size: 1.5rem; }
         .memory-card-front:hover { background-color: #fda4af; }
         .memory-card-back { background-color: #fff; transform: rotateY(180deg); border: 2px solid #fecdd3; font-size: 2.5rem; }
+
+        /* Basket Reset */
+        #catch-basket {
+            transform: translateX(-50%);
+            transition: none !important;
+        }
     </style>
 </head>
 <body class="text-gray-800 antialiased relative">
@@ -276,7 +282,7 @@
                 </div>
                 
                 <div id="catch-area" class="relative flex-1 bg-rose-50 rounded-2xl overflow-hidden border border-rose-100 cursor-crosshair touch-none shadow-inner">
-                    <div id="catch-basket" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-5xl z-20 pointer-events-none">🧺</div>
+                    <div id="catch-basket" class="absolute bottom-2 text-5xl z-20 pointer-events-none" style="left: 50%;">🧺</div>
                 </div>
 
                 <div id="catch-win-screen" class="hidden absolute inset-0 bg-white/95 flex-col items-center justify-center z-30 p-6 text-center rounded-3xl transition-all duration-500">
@@ -305,8 +311,6 @@
             </div>
         </div>
     </section>
-
-    
 
     <!-- Footer -->
     <footer class="py-10 text-center relative z-10">
@@ -468,13 +472,13 @@
         
         function moveNoBtn() {
             noBtn.style.position = 'absolute';
-            noBtn.style.zIndex = '50';
+            noBtn.style.zIndex = '100'; // Ensure it's above other elements
             
             const maxX = trickContainer.clientWidth - noBtn.offsetWidth - 20;
             const maxY = trickContainer.clientHeight - noBtn.offsetHeight - 20;
             
-            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            const randomX = Math.max(10, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(10, Math.floor(Math.random() * maxY));
             
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
@@ -504,78 +508,6 @@
             });
         }
 
-        // --- Date Night Generator Logic ---
-        const dateIdeas = [
-            "Cozy Movie Marathon & Pizza 🍕🍿", "Late Night Drive & Ice Cream 🚗🍦", "Fancy Dinner & Dressing Up 🥂✨",
-            "Cooking Together & Dancing in the Kitchen 🍝💃", "Stargazing & Deep Conversations 🌌💖", "Indoor Picnic with Lots of Snacks 🧺🍓",
-            "Movie Night at Home 💆‍♀️🕯️", "Building a Blanket Fort & Cuddling 🏰🧸", "Sunset Walk & Holding Hands 🌅👫", "Baking Sweet Treats Together 🧁👩‍🍳"
-        ];
-        let isSpinning = false;
-        function spinDate() {
-            if (isSpinning) return;
-            isSpinning = true;
-            const resultText = document.getElementById('date-result'); const button = document.getElementById('spin-btn');
-            button.classList.add('opacity-75', 'scale-95'); button.innerText = "Spinning... ⏳";
-            let ticks = 0; let maxTicks = 25; 
-            let spinInterval = setInterval(() => {
-                resultText.innerText = dateIdeas[Math.floor(Math.random() * dateIdeas.length)];
-                resultText.classList.add('scale-105', 'text-rose-500'); setTimeout(() => resultText.classList.remove('scale-105', 'text-rose-500'), 50);
-                ticks++;
-                if (ticks >= maxTicks) {
-                    clearInterval(spinInterval); isSpinning = false;
-                    button.classList.remove('opacity-75', 'scale-95'); button.innerText = "Spin Again! 🔄";
-                    resultText.classList.add('text-rose-600', 'scale-110'); setTimeout(() => resultText.classList.remove('scale-110'), 300);
-                    confetti({ particleCount: 80, spread: 80, origin: { y: 0.6 }, colors: ['#fb7185', '#fecdd3', '#e11d48'] });
-                }
-            }, 100);
-        }
-
-        // --- Memory Game Logic ---
-        const memoryEmojis = ['🌹', '🎁', '🥂', '🧸', '✨', '💍', '💌', '💋'];
-        let gameCards = [...memoryEmojis, ...memoryEmojis];
-        let flippedCards = [], matchedPairs = 0, moves = 0, lockBoard = false;
-
-        function initMemoryGame() {
-            const board = document.getElementById('memory-board'); const winMsg = document.getElementById('game-win-msg');
-            document.getElementById('game-moves').innerText = 'Moves: 0';
-            board.innerHTML = ''; winMsg.classList.add('hidden');
-            flippedCards = []; matchedPairs = 0; moves = 0; lockBoard = false;
-            gameCards.sort(() => Math.random() - 0.5);
-
-            gameCards.forEach((emoji) => {
-                const card = document.createElement('div'); card.classList.add('memory-card', 'h-16', 'sm:h-20', 'w-full'); card.dataset.emoji = emoji;
-                card.innerHTML = `<div class="memory-card-inner"><div class="memory-card-front"><span>❤️</span></div><div class="memory-card-back"><span>${emoji}</span></div></div>`;
-                card.addEventListener('click', () => flipCard(card));
-                board.appendChild(card);
-            });
-        }
-
-        function flipCard(card) {
-            if (lockBoard || card === flippedCards[0] || card.classList.contains('flipped')) return;
-            card.classList.add('flipped'); flippedCards.push(card);
-            if (flippedCards.length === 2) {
-                moves++; document.getElementById('game-moves').innerText = `Moves: ${moves}`;
-                checkForMatch();
-            }
-        }
-
-        function checkForMatch() {
-            const [card1, card2] = flippedCards;
-            if (card1.dataset.emoji === card2.dataset.emoji) {
-                matchedPairs++; flippedCards = [];
-                if (matchedPairs === memoryEmojis.length) {
-                    setTimeout(() => {
-                        document.getElementById('game-win-msg').classList.remove('hidden');
-                        confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 }, colors: ['#e11d48', '#fb7185', '#fda4af', '#fecdd3'] });
-                    }, 500);
-                }
-            } else {
-                lockBoard = true;
-                setTimeout(() => { card1.classList.remove('flipped'); card2.classList.remove('flipped'); flippedCards = []; lockBoard = false; }, 1000);
-            }
-        }
-        initMemoryGame();
-
         // --- Catching Game Logic ---
         let catchScore = 0;
         let isCatchGameActive = false;
@@ -591,22 +523,28 @@
         function moveBasket(e) {
             if (!isCatchGameActive) return;
             const rect = catchArea.getBoundingClientRect();
-            let clientX = e.clientX;
-            if (e.type && e.type.includes('touch') && e.touches.length > 0) {
+            let clientX;
+            
+            if (e.type.includes('touch') && e.touches.length > 0) {
                 clientX = e.touches[0].clientX;
                 if(e.cancelable) e.preventDefault(); 
+            } else {
+                clientX = e.clientX;
             }
+            
             let x = clientX - rect.left;
-            const basketHalf = catchBasket.offsetWidth / 2;
-            if (x < basketHalf) x = basketHalf;
-            if (x > rect.width - basketHalf) x = rect.width - basketHalf;
-            catchBasket.style.left = `${x}px`;
+            const basketWidth = catchBasket.offsetWidth;
+            
+            // Boundary constraints
+            if (x < basketWidth / 2) x = basketWidth / 2;
+            if (x > rect.width - basketWidth / 2) x = rect.width - basketWidth / 2;
+            
+            // Set position (Basket is centered based on X)
+            catchBasket.style.left = (x - basketWidth / 2) + 'px';
         }
 
-        if(catchArea) {
-            catchArea.addEventListener('mousemove', moveBasket);
-            catchArea.addEventListener('touchmove', moveBasket, {passive: false});
-        }
+        catchArea.addEventListener('mousemove', moveBasket);
+        catchArea.addEventListener('touchmove', moveBasket, {passive: false});
 
         function startCatchGame() {
             if (isCatchGameActive) return;
@@ -617,8 +555,13 @@
             catchWinScreen.classList.remove('flex');
             startCatchBtn.innerText = "Playing...";
             startCatchBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            
             catchItems.forEach(item => item.el.remove());
             catchItems = [];
+            
+            // Reset basket to center
+            catchBasket.style.left = (catchArea.clientWidth / 2 - catchBasket.offsetWidth / 2) + 'px';
+
             spawnInterval = setInterval(spawnItem, 600);
             catchAnimationId = requestAnimationFrame(updateCatchGame);
         }
@@ -631,30 +574,40 @@
             el.className = 'absolute text-3xl z-10 select-none pointer-events-none';
             const startX = Math.max(10, Math.random() * (catchArea.offsetWidth - 40));
             el.style.left = `${startX}px`;
-            el.style.top = '-30px';
+            el.style.top = '-40px';
             catchArea.appendChild(el);
-            catchItems.push({ el: el, x: startX, y: -30, speed: Math.random() * 2.5 + 2 });
+            catchItems.push({ el: el, x: startX, y: -40, speed: Math.random() * 2 + 2.5 });
         }
 
         function updateCatchGame() {
             if (!isCatchGameActive) return;
             const basketRect = catchBasket.getBoundingClientRect();
             const areaRect = catchArea.getBoundingClientRect();
+
             for (let i = catchItems.length - 1; i >= 0; i--) {
                 const item = catchItems[i];
                 item.y += item.speed;
                 item.el.style.top = `${item.y}px`;
                 const itemRect = item.el.getBoundingClientRect();
-                if (itemRect.bottom >= basketRect.top + 10 && itemRect.top <= basketRect.bottom && itemRect.right >= basketRect.left && itemRect.left <= basketRect.right) {
+
+                // Collision detection
+                if (itemRect.bottom >= basketRect.top + 10 && 
+                    itemRect.top <= basketRect.bottom && 
+                    itemRect.right >= basketRect.left && 
+                    itemRect.left <= basketRect.right) {
+                    
                     catchScore++;
                     scoreDisplay.innerText = catchScore;
+                    
+                    // Visual pop effect
                     item.el.innerText = '✨';
                     item.el.style.transition = 'all 0.2s';
-                    item.el.style.transform = 'scale(1.5)';
+                    item.el.style.transform = 'scale(1.8)';
                     item.el.style.opacity = '0';
-                    const currentEl = item.el;
-                    setTimeout(() => currentEl.remove(), 200);
+                    const elToRemove = item.el;
+                    setTimeout(() => elToRemove.remove(), 200);
                     catchItems.splice(i, 1);
+
                     if (catchScore >= 20) winCatchGame();
                 } else if (item.y > areaRect.height) {
                     item.el.remove();
@@ -682,6 +635,32 @@
             scoreDisplay.innerText = catchScore;
             catchItems.forEach(item => item.el.remove());
             catchItems = [];
+        }
+
+        // --- Date Night Generator Logic ---
+        const dateIdeas = [
+            "Cozy Movie Marathon & Pizza 🍕🍿", "Late Night Drive & Ice Cream 🚗🍦", "Fancy Dinner & Dressing Up 🥂✨",
+            "Cooking Together & Dancing in the Kitchen 🍝💃", "Stargazing & Deep Conversations 🌌💖", "Indoor Picnic with Lots of Snacks 🧺🍓",
+            "Movie Night at Home 💆‍♀️🕯️", "Building a Blanket Fort & Cuddling 🏰🧸", "Sunset Walk & Holding Hands 🌅👫", "Baking Sweet Treats Together 🧁👩‍🍳"
+        ];
+        let isSpinning = false;
+        function spinDate() {
+            if (isSpinning) return;
+            isSpinning = true;
+            const resultText = document.getElementById('date-result'); const button = document.getElementById('spin-btn');
+            button.classList.add('opacity-75', 'scale-95'); button.innerText = "Spinning... ⏳";
+            let ticks = 0; let maxTicks = 25; 
+            let spinInterval = setInterval(() => {
+                resultText.innerText = dateIdeas[Math.floor(Math.random() * dateIdeas.length)];
+                resultText.classList.add('scale-105', 'text-rose-500'); setTimeout(() => resultText.classList.remove('scale-105', 'text-rose-500'), 50);
+                ticks++;
+                if (ticks >= maxTicks) {
+                    clearInterval(spinInterval); isSpinning = false;
+                    button.classList.remove('opacity-75', 'scale-95'); button.innerText = "Spin Again! 🔄";
+                    resultText.classList.add('text-rose-600', 'scale-110'); setTimeout(() => resultText.classList.remove('scale-110'), 300);
+                    confetti({ particleCount: 80, spread: 80, origin: { y: 0.6 }, colors: ['#fb7185', '#fecdd3', '#e11d48'] });
+                }
+            }, 100);
         }
     </script>
 </body>
