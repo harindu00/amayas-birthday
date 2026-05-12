@@ -300,6 +300,33 @@
         </div>
     </section>
 
+    <!-- Eteni ya Motuna ya Bokosi (Trick Question Section) -->
+    <section id="trick-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-rose-50/40 border-y border-rose-100 my-8">
+        <div class="max-w-3xl mx-auto text-center reveal">
+            <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">One Important Question...</h2>
+            <p class="text-lg text-gray-700 mb-8 italic">Answer honestly, baby! 🥺</p>
+            
+            <div class="max-w-md mx-auto bg-white/80 p-8 rounded-3xl shadow-lg border border-rose-200 relative min-h-[300px] flex flex-col items-center justify-center overflow-hidden" id="trick-container">
+                <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-10 nickname">Do you love me more than anything?</h3>
+                
+                <div class="flex gap-4 justify-center items-center w-full relative h-16" id="btn-wrapper">
+                    <button onclick="yesTrickClicked()" class="bg-rose-500 text-white font-bold py-3 px-10 rounded-full hover:bg-rose-600 transition-colors shadow-lg transform hover:scale-110 text-xl z-20">
+                        YES! ❤️
+                    </button>
+                    <button id="no-btn" class="bg-gray-400 text-white font-bold py-3 px-10 rounded-full shadow-md text-xl z-20 transition-all duration-200">
+                        NO 😒
+                    </button>
+                </div>
+                
+                <!-- Win Message -->
+                <div id="trick-win-msg" class="hidden absolute inset-0 bg-white flex-col items-center justify-center rounded-3xl z-30 transition-all duration-500">
+                    <p class="text-3xl sm:text-4xl font-bold nickname text-rose-600 mb-2">I knew it! 🥰</p>
+                    <p class="text-lg text-gray-600">You are stuck with me forever! 💕</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- The Jar of Love Section -->
     <section id="jar-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-white/40 backdrop-blur-md border-y border-rose-100">
         <div class="max-w-3xl mx-auto text-center reveal">
@@ -365,7 +392,7 @@
         </div>
     </section>
 
-    <!-- NEW: Memory Game Section -->
+    <!-- Memory Game Section -->
     <section id="game-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-white/40 backdrop-blur-md border-y border-rose-100 my-8">
         <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">Match the Love</h2>
@@ -716,7 +743,7 @@
             }, 100); // Speed of the shuffle
         }
 
-        // --- NEW: Memory Game Logic ---
+        // --- Memory Game Logic ---
         const memoryEmojis = ['🌹', '🎁', '🥂', '🧸', '✨', '💍', '💌', '💋'];
         let gameCards = [...memoryEmojis, ...memoryEmojis];
         let flippedCards = [];
@@ -809,6 +836,50 @@
 
         // Initialize game when page loads
         initMemoryGame();
+
+        // --- Eteni ya Motuna ya Bokosi (Trick Question Logic) ---
+        const noBtn = document.getElementById('no-btn');
+        const trickContainer = document.getElementById('trick-container');
+
+        function moveNoBtn() {
+            noBtn.style.position = 'absolute';
+            
+            const containerRect = trickContainer.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            // Calculate safe boundaries
+            const maxX = containerRect.width - btnRect.width - 20;
+            const maxY = containerRect.height - btnRect.height - 20;
+            
+            // Generate random positions
+            const randomX = Math.max(10, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(10, Math.floor(Math.random() * maxY));
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        // Move button when hovered over (Desktop)
+        noBtn.addEventListener('mouseover', moveNoBtn);
+        
+        // Move button when tapped (Mobile)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); 
+            moveNoBtn();
+        });
+
+        function yesTrickClicked() {
+            const winMsg = document.getElementById('trick-win-msg');
+            winMsg.classList.remove('hidden');
+            winMsg.classList.add('flex');
+            
+            confetti({
+                particleCount: 150,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#e11d48', '#fb7185', '#fda4af']
+            });
+        }
     </script>
 </body>
 </html>
