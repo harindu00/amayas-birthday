@@ -31,17 +31,9 @@
             pointer-events: none;
         }
         @keyframes float {
-            0% {
-                transform: translateY(110vh) scale(0.5) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1.5) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(110vh) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.5) rotate(360deg); opacity: 0; }
         }
 
         /* Reveal animation for scrolling */
@@ -99,55 +91,31 @@
             box-shadow: 0 0 15px rgba(225, 29, 72, 0.4);
             transition: transform 0.1s;
         }
-        .love-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
-        }
         .love-slider::-moz-range-thumb {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #e11d48;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(225, 29, 72, 0.4);
+            width: 40px; height: 40px; border-radius: 50%; background: #e11d48; cursor: pointer; box-shadow: 0 0 15px rgba(225, 29, 72, 0.4);
         }
         
         /* Memory Game Cards */
-        .memory-card {
-            perspective: 1000px;
-            cursor: pointer;
-        }
+        .memory-card { perspective: 1000px; cursor: pointer; }
         .memory-card-inner {
             transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-            transform-style: preserve-3d;
-            position: relative;
-            width: 100%;
-            height: 100%;
+            transform-style: preserve-3d; position: relative; width: 100%; height: 100%;
         }
-        .memory-card.flipped .memory-card-inner {
-            transform: rotateY(180deg);
-        }
+        .memory-card.flipped .memory-card-inner { transform: rotateY(180deg); }
         .memory-card-front, .memory-card-back {
-            backface-visibility: hidden;
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 0.75rem;
+            backface-visibility: hidden; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            display: flex; align-items: center; justify-content: center; border-radius: 0.75rem;
             box-shadow: 0 4px 6px -1px rgba(225, 29, 72, 0.1), 0 2px 4px -1px rgba(225, 29, 72, 0.06);
         }
-        .memory-card-front {
-            background-color: #fecdd3;
-            transform: rotateY(0deg);
-            font-size: 1.5rem;
-        }
-        .memory-card-front:hover {
-            background-color: #fda4af;
-        }
-        .memory-card-back {
-            background-color: #fff;
-            transform: rotateY(180deg);
-            border: 2px solid #fecdd3;
-            font-size: 2.5rem;
-        }
+        .memory-card-front { background-color: #fecdd3; transform: rotateY(0deg); font-size: 1.5rem; }
+        .memory-card-front:hover { background-color: #fda4af; }
+        .memory-card-back { background-color: #fff; transform: rotateY(180deg); border: 2px solid #fecdd3; font-size: 2.5rem; }
+
+        /* Canvas drawing fix for Contract */
+        .signature-pad { touch-action: none; }
+        
+        /* Lie Detector Scan Line */
+        @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
     </style>
 </head>
 <body class="text-gray-800 antialiased relative">
@@ -169,14 +137,9 @@
             <p class="text-xl sm:text-2xl text-gray-700 italic mt-4">
                 My sweet <span class="nickname text-rose-600 font-bold text-3xl mx-1">Sosamala</span>, today is all about you.
             </p>
-            
             <div class="pt-8">
-                <button onclick="document.getElementById('cake-section').scrollIntoView({behavior: 'smooth'})" 
-                        class="group relative inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-rose-500 rounded-full overflow-hidden transition-all duration-300 ease-in-out hover:bg-rose-600 hover:scale-105 shadow-lg shadow-rose-500/30">
-                    <span class="relative z-10 flex items-center gap-2">
-                        Let's Celebrate!
-                        <svg class="w-4 h-4 transition-transform group-hover:translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                    </span>
+                <button onclick="document.getElementById('cake-section').scrollIntoView({behavior: 'smooth'})" class="group relative inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-rose-500 rounded-full overflow-hidden transition-all duration-300 ease-in-out hover:bg-rose-600 hover:scale-105 shadow-lg shadow-rose-500/30">
+                    <span class="relative z-10 flex items-center gap-2">Let's Celebrate! <svg class="w-4 h-4 transition-transform group-hover:translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></span>
                 </button>
             </div>
         </div>
@@ -188,39 +151,23 @@
             <h2 class="text-4xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">Make a Wish, Sosamala! ✨</h2>
             <p class="text-gray-600 text-lg">Tap the cake to blow out the candles</p>
         </div>
-        
         <div class="reveal relative cursor-pointer group hover:scale-105 transition-transform duration-300" onclick="blowCandles()" id="birthday-cake">
-            <!-- SVG Cake -->
             <svg width="250" height="250" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-xl">
-                <!-- Plate -->
                 <ellipse cx="100" cy="180" rx="90" ry="15" fill="#fbcfe8" />
                 <ellipse cx="100" cy="177" rx="85" ry="12" fill="#fdf2f8" />
-                
-                <!-- Bottom Tier -->
                 <path d="M30 170 C 30 180, 170 180, 170 170 L 170 120 C 170 130, 30 130, 30 120 Z" fill="#fda4af" />
                 <ellipse cx="100" cy="120" rx="70" ry="15" fill="#fecdd3" />
-                <!-- Frosting drips bottom -->
                 <path d="M30 120 Q 40 140, 50 120 Q 65 145, 80 120 Q 95 135, 110 120 Q 130 150, 150 120 Q 160 135, 170 120" fill="#fff1f2" />
-                
-                <!-- Top Tier -->
                 <path d="M50 115 C 50 125, 150 125, 150 115 L 150 75 C 150 85, 50 85, 50 75 Z" fill="#fb7185" />
                 <ellipse cx="100" cy="75" rx="50" ry="12" fill="#f43f5e" />
-                <!-- Frosting drips top -->
                 <path d="M50 75 Q 65 95, 80 75 Q 95 105, 110 75 Q 125 90, 135 75 Q 142 85, 150 75" fill="#fff1f2" />
-                
-                <!-- Candles -->
                 <g class="candles">
-                    <!-- Candle 1 -->
                     <rect x="75" y="40" width="6" height="30" fill="#fef08a" rx="2"/>
                     <path class="flame" id="flame1" d="M78 38 Q 74 30, 78 20 Q 82 30, 78 38" fill="#f97316" />
                     <path class="flame" id="flame1-inner" d="M78 36 Q 76 30, 78 25 Q 80 30, 78 36" fill="#fef08a" />
-                    
-                    <!-- Candle 2 -->
                     <rect x="97" y="35" width="6" height="35" fill="#fef08a" rx="2"/>
                     <path class="flame" id="flame2" d="M100 33 Q 96 25, 100 15 Q 104 25, 100 33" fill="#f97316" />
                     <path class="flame" id="flame2-inner" d="M100 31 Q 98 25, 100 20 Q 102 25, 100 31" fill="#fef08a" />
-
-                    <!-- Candle 3 -->
                     <rect x="119" y="40" width="6" height="30" fill="#fef08a" rx="2"/>
                     <path class="flame" id="flame3" d="M122 38 Q 118 30, 122 20 Q 126 30, 122 38" fill="#f97316" />
                     <path class="flame" id="flame3-inner" d="M122 36 Q 120 30, 122 25 Q 124 30, 122 36" fill="#fef08a" />
@@ -230,11 +177,8 @@
                 Happy Birthday Chuti Patiyoo! 🎉
             </div>
         </div>
-        
         <div class="mt-12 text-center">
-            <button onclick="document.getElementById('message-section').scrollIntoView({behavior: 'smooth'})" class="text-rose-400 hover:text-rose-600 underline underline-offset-4 transition-colors">
-                Read my letter ↓
-            </button>
+            <button onclick="document.getElementById('message-section').scrollIntoView({behavior: 'smooth'})" class="text-rose-400 hover:text-rose-600 underline underline-offset-4 transition-colors">Read my letter ↓</button>
         </div>
     </section>
 
@@ -242,33 +186,15 @@
     <section id="message-section" class="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-4xl mx-auto">
             <div class="reveal bg-white rounded-3xl shadow-xl p-8 sm:p-12 md:p-16 border-t-8 border-rose-400 relative">
-                <!-- Decorative quote mark -->
-                <div class="absolute top-8 left-8 text-rose-200 opacity-50">
-                    <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/></svg>
-                </div>
-                
+                <div class="absolute top-8 left-8 text-rose-200 opacity-50"><svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/></svg></div>
                 <div class="relative z-10 prose prose-lg sm:prose-xl prose-rose mx-auto text-gray-700 leading-relaxed text-center sm:text-left">
                     <h2 class="text-3xl sm:text-4xl text-rose-800 mb-8 text-center">My Dearest Sosamala,</h2>
-                    
-                    <p>
-                        From the very moment you walked into my life, everything changed in the most beautiful way. My days became brighter, my heart became warmer, and even the smallest moments started to feel special because of you. You are the kind of happiness I never knew I needed, yet now I can’t imagine a single day without you.
-                    </p>
-                    <p>
-                       Today is your day, my beautiful Sosamala 🌸, and I just want you to know how deeply and endlessly loved you are. Every smile of yours melts my heart, every laugh of yours becomes my favorite sound, and every little thing about you — even your tiny quirks — makes me fall for you more and more every day.
-                    </p>
-                    <p>
-                      On your special day, I pray that life gives you endless happiness, peaceful moments, beautiful memories, and all the love your heart deserves. You deserve a world filled with smiles, success, and dreams coming true, because you are one of the most beautiful souls I have ever known.
-                    </p>
-                    <p>
-                      Thank you for loving me, understanding me, supporting me, and simply being you. No matter where life takes us, I promise I’ll always stand beside you — to hold your hand when you need comfort, to support your dreams when you need strength, and to celebrate every little victory and beautiful moment together.
-                    </p>
-                    <p>
-                      You are not just my girlfriend.
-                      You are my peace, my happiness, my safe place, and the sweetest part of my life.
-                    </p>
-                    <p class="text-center font-medium text-rose-600 mt-10 text-2xl romantic-text italic">
-                        Yours forever. ❤️
-                    </p>
+                    <p>From the very moment you walked into my life, everything changed in the most beautiful way. My days became brighter, my heart became warmer, and even the smallest moments started to feel special because of you. You are the kind of happiness I never knew I needed, yet now I can’t imagine a single day without you.</p>
+                    <p>Today is your day, my beautiful Sosamala 🌸, and I just want you to know how deeply and endlessly loved you are. Every smile of yours melts my heart, every laugh of yours becomes my favorite sound, and every little thing about you — even your tiny quirks — makes me fall for you more and more every day.</p>
+                    <p>On your special day, I pray that life gives you endless happiness, peaceful moments, beautiful memories, and all the love your heart deserves. You deserve a world filled with smiles, success, and dreams coming true, because you are one of the most beautiful souls I have ever known.</p>
+                    <p>Thank you for loving me, understanding me, supporting me, and simply being you. No matter where life takes us, I promise I’ll always stand beside you — to hold your hand when you need comfort, to support your dreams when you need strength, and to celebrate every little victory and beautiful moment together.</p>
+                    <p>You are not just my girlfriend. You are my peace, my happiness, my safe place, and the sweetest part of my life.</p>
+                    <p class="text-center font-medium text-rose-600 mt-10 text-2xl romantic-text italic">Yours forever. ❤️</p>
                 </div>
             </div>
         </div>
@@ -279,17 +205,10 @@
         <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">A Quick Question...</h2>
             <p class="text-lg sm:text-xl text-gray-700 mb-8 italic">How much do you love me, Sosamala?</p>
-            
             <div class="relative pt-4 pb-8 bg-white/60 p-8 rounded-3xl shadow-inner border border-rose-100">
                 <div class="text-6xl sm:text-7xl mb-8 transition-transform duration-300 transform hover:scale-110 select-none" id="love-emoji">🤔</div>
-                
                 <input type="range" min="0" max="100" value="0" class="love-slider w-full max-w-lg mx-auto block" id="love-meter" oninput="updateLoveMeter(this.value)">
-                
-                <div id="love-message" class="mt-8 text-xl sm:text-2xl font-bold text-rose-500 h-10 transition-all duration-300 opacity-0 transform translate-y-4">
-                    Slide to show me...
-                </div>
-                
-                <!-- Secret Reveal Box -->
+                <div id="love-message" class="mt-8 text-xl sm:text-2xl font-bold text-rose-500 h-10 transition-all duration-300 opacity-0 transform translate-y-4">Slide to show me...</div>
                 <div id="love-overflow-wrapper" class="hidden mt-6 overflow-hidden transition-all duration-500">
                     <div class="flex flex-col items-center justify-center p-6 bg-rose-50 rounded-2xl border-2 border-rose-300 shadow-lg animate-bounce">
                         <p class="text-2xl sm:text-3xl romantic-text text-rose-700 font-bold mb-2">....</p>
@@ -300,40 +219,29 @@
         </div>
     </section>
 
-   
-
     <!-- The Jar of Love Section -->
     <section id="jar-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-white/40 backdrop-blur-md border-y border-rose-100">
         <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">The Jar of Love</h2>
             <p class="text-lg text-gray-700 mb-10 italic">Tap the jar whenever you need a reminder of why I love you.</p>
-
             <div class="flex flex-col items-center justify-center min-h-[300px]">
-                <!-- SVG Jar -->
                 <div class="cursor-pointer transition-transform duration-300 hover:scale-105 relative z-10" onclick="pullNote()" id="love-jar">
                     <svg width="150" height="200" viewBox="0 0 120 160" class="drop-shadow-2xl">
-                        <!-- Lid -->
                         <path d="M 35 15 C 35 10, 85 10, 85 15 L 85 25 C 85 30, 35 30, 35 25 Z" fill="#fb7185" />
                         <rect x="30" y="25" width="60" height="10" rx="3" fill="#f43f5e" />
-                        <!-- Ribbon & Bow -->
                         <rect x="42" y="35" width="36" height="8" fill="#be123c" />
                         <path d="M 60 40 L 45 55 L 50 58 Z" fill="#be123c" />
                         <path d="M 60 40 L 75 55 L 70 58 Z" fill="#be123c" />
                         <circle cx="60" cy="39" r="4" fill="#9f1239" />
-                        <!-- Body -->
                         <path d="M 40 43 C 20 45, 10 140, 25 150 L 95 150 C 110 140, 100 45, 80 43 Z" fill="rgba(255, 241, 242, 0.85)" stroke="#fecdd3" stroke-width="3" />
-                        <!-- Hearts inside -->
                         <text x="45" y="110" font-size="18">❤️</text>
                         <text x="65" y="130" font-size="15">💖</text>
                         <text x="70" y="100" font-size="12">💕</text>
                         <text x="40" y="135" font-size="14">✨</text>
-                        <!-- Label -->
                         <rect x="35" y="65" width="50" height="25" rx="2" fill="#fff" stroke="#fda4af" stroke-width="1"/>
                         <text x="60" y="82" font-size="14" font-family="'Dancing Script', cursive" fill="#be123c" text-anchor="middle" font-weight="bold">Click</text>
                     </svg>
                 </div>
-
-                <!-- Note Display -->
                 <div id="jar-note" class="mt-4 p-6 bg-yellow-50 border-2 border-rose-200 rounded-xl shadow-lg max-w-sm w-full transform scale-0 transition-transform duration-500 origin-top relative z-0">
                     <p class="nickname text-2xl sm:text-3xl text-gray-800 leading-relaxed" id="jar-note-text"></p>
                 </div>
@@ -341,25 +249,17 @@
         </div>
     </section>
 
-     <!-- Eteni ya Motuna ya Bokosi (Trick Question Section) -->
+    <!-- Trick Question Section -->
     <section id="trick-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-rose-50/40 border-y border-rose-100 my-8">
         <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">One Important Question...</h2>
             <p class="text-lg text-gray-700 mb-8 italic">Answer honestly, baby! </p>
-            
             <div class="max-w-md mx-auto bg-white/80 p-8 rounded-3xl shadow-lg border border-rose-200 relative min-h-[300px] flex flex-col items-center justify-center overflow-hidden" id="trick-container">
                 <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-10 nickname">Would you kiss me right now if you could?</h3>
-                
                 <div class="flex gap-4 justify-center items-center w-full relative h-16" id="btn-wrapper">
-                    <button onclick="yesTrickClicked()" class="bg-rose-500 text-white font-bold py-3 px-10 rounded-full hover:bg-rose-600 transition-colors shadow-lg transform hover:scale-110 text-xl z-20">
-                        YES! ❤️
-                    </button>
-                    <button id="no-btn" class="bg-gray-400 text-white font-bold py-3 px-10 rounded-full shadow-md text-xl z-20 transition-all duration-200">
-                        NO 😒
-                    </button>
+                    <button onclick="yesTrickClicked()" class="bg-rose-500 text-white font-bold py-3 px-10 rounded-full hover:bg-rose-600 transition-colors shadow-lg transform hover:scale-110 text-xl z-20">YES! ❤️</button>
+                    <button id="no-btn" class="bg-gray-400 text-white font-bold py-3 px-10 rounded-full shadow-md text-xl z-20 transition-all duration-200">NO 😒</button>
                 </div>
-                
-                <!-- Win Message -->
                 <div id="trick-win-msg" class="hidden absolute inset-0 bg-white flex-col items-center justify-center rounded-3xl z-30 transition-all duration-500">
                     <p class="text-3xl sm:text-4xl font-bold nickname text-rose-600 mb-2">Hehe… 🙈🥰</p>
                     <p class="text-lg text-gray-600">aww looks like someone really wants a kiss 😘💋</p>
@@ -373,23 +273,33 @@
        <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">When We're Together...</h2>
             <p class="text-lg text-gray-700 mb-10 italic">Our future dates. Let fate (and this button) decide for us!</p>
-
             <div class="bg-white p-8 sm:p-10 rounded-3xl border-4 border-dashed border-rose-300 shadow-xl max-w-lg mx-auto relative overflow-hidden group">
-                <!-- Decorative Ticket elements -->
                 <div class="absolute -left-4 top-1/2 w-8 h-8 bg-rose-50 rounded-full transform -translate-y-1/2 border-r-4 border-rose-300 border-dashed"></div>
                 <div class="absolute -right-4 top-1/2 w-8 h-8 bg-rose-50 rounded-full transform -translate-y-1/2 border-l-4 border-rose-300 border-dashed"></div>
-                
                 <p class="text-rose-400 font-bold tracking-widest uppercase mb-6 text-sm">✨ Admit Two ✨</p>
-                
                 <div class="min-h-[120px] flex items-center justify-center bg-rose-50 rounded-xl p-4 mb-6 border border-rose-100">
-                    <h3 id="date-result" class="text-2xl sm:text-3xl font-bold text-gray-800 transition-all duration-75 text-center nickname">
-                        Tap spin to find out!
-                    </h3>
+                    <h3 id="date-result" class="text-2xl sm:text-3xl font-bold text-gray-800 transition-all duration-75 text-center nickname">Tap spin to find out!</h3>
                 </div>
-                
-                <button id="spin-btn" onclick="spinDate()" class="bg-gradient-to-r from-rose-400 to-rose-600 text-white font-bold py-3 px-8 rounded-full hover:from-rose-500 hover:to-rose-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1 text-lg">
-                    Spin the Wheel 🎰
-                </button>
+                <button id="spin-btn" onclick="spinDate()" class="bg-gradient-to-r from-rose-400 to-rose-600 text-white font-bold py-3 px-8 rounded-full hover:from-rose-500 hover:to-rose-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1 text-lg">Spin the Wheel 🎰</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Memory Game Section -->
+    <section id="game-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-white/40 backdrop-blur-md border-y border-rose-100 my-8">
+        <div class="max-w-3xl mx-auto text-center reveal">
+            <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">Match the Love</h2>
+            <p class="text-lg text-gray-700 mb-8 italic">A little game just for you. Find all the matching pairs!</p>
+            <div class="max-w-md mx-auto bg-white/60 p-6 rounded-3xl shadow-inner border border-rose-100">
+                <div id="memory-board" class="grid grid-cols-4 gap-3 sm:gap-4 mb-6"></div>
+                <div class="flex items-center justify-between px-4">
+                    <p id="game-moves" class="text-rose-500 font-medium text-lg">Moves: 0</p>
+                    <button onclick="initMemoryGame()" class="bg-rose-100 text-rose-600 font-bold py-2 px-6 rounded-full hover:bg-rose-200 transition-colors shadow-sm">Restart</button>
+                </div>
+                <div id="game-win-msg" class="hidden mt-8 transition-all duration-500">
+                    <p class="text-2xl sm:text-3xl font-bold nickname text-rose-600">You won 🎉</p>
+                    <p class="text-gray-600 mt-2">You matched them perfectly, just like us. ❤️</p>
+                </div>
             </div>
         </div>
     </section>
@@ -420,9 +330,6 @@
         </div>
     </section>
 
-    <!-- Memories Section -->
-    
-
     <!-- Footer -->
     <footer class="py-10 text-center relative z-10">
         <p class="text-rose-400 font-medium flex items-center justify-center gap-2">
@@ -432,7 +339,6 @@
 
     <!-- Interactive JavaScript -->
     <script>
-        
         // --- Scroll Reveal Logic ---
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
@@ -440,14 +346,12 @@
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
                 var elementVisible = 100;
-                
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
                 }
             }
         }
         window.addEventListener("scroll", reveal);
-        // Trigger once on load
         reveal();
 
         // --- Floating Hearts Logic ---
@@ -457,19 +361,13 @@
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            
             heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = Math.random() * 3 + 4 + 's';
             heart.style.fontSize = Math.random() * 1.5 + 1 + 'rem';
-            
             document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 7000);
+            setTimeout(() => { heart.remove(); }, 7000);
         }
-
         setInterval(createHeart, 400);
 
         document.addEventListener('click', (e) => {
@@ -483,14 +381,10 @@
                     heart.style.animation = 'none';
                     heart.style.transform = `translateY(0) scale(1)`;
                     heart.style.transition = 'all 2s ease-out';
-                    
                     document.body.appendChild(heart);
-                    
                     void heart.offsetWidth;
-                    
                     heart.style.transform = `translateY(-100px) scale(1.5)`;
                     heart.style.opacity = '0';
-                    
                     setTimeout(() => heart.remove(), 2000);
                 }, i * 100);
             }
@@ -501,12 +395,7 @@
         function blowCandles() {
             if (candlesBlown) return;
             candlesBlown = true;
-            
-            const flames = document.querySelectorAll('.flame');
-            flames.forEach(flame => {
-                flame.classList.add('flame-out');
-            });
-
+            document.querySelectorAll('.flame').forEach(flame => flame.classList.add('flame-out'));
             document.getElementById('cake-success').classList.remove('opacity-0');
             document.getElementById('cake-success').classList.add('opacity-100');
 
@@ -514,24 +403,14 @@
             var animationEnd = Date.now() + duration;
             var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
 
-            function randomInRange(min, max) {
-                return Math.random() * (max - min) + min;
-            }
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
 
             var interval = setInterval(function() {
                 var timeLeft = animationEnd - Date.now();
-
-                if (timeLeft <= 0) {
-                    return clearInterval(interval);
-                }
-
+                if (timeLeft <= 0) return clearInterval(interval);
                 var particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount,
-                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
-                }));
-                confetti(Object.assign({}, defaults, { particleCount,
-                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
-                }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
             }, 250);
         }
 
@@ -541,57 +420,28 @@
             const emoji = document.getElementById('love-emoji');
             const message = document.getElementById('love-message');
             const wrapper = document.getElementById('love-overflow-wrapper');
-            
             message.classList.remove('opacity-0', 'translate-y-4');
             
-            if (value == 0) {
-                emoji.innerText = '🤔';
-                message.innerText = 'Slide to show me...';
-                wrapper.classList.add('hidden');
-                loveMaxed = false;
-            } else if (value < 30) {
-                emoji.innerText = '🤨';
-                message.innerText = 'Wait... is that all? 🥺';
-                wrapper.classList.add('hidden');
-                loveMaxed = false;
-            } else if (value < 70) {
-                emoji.innerText = '😊';
-                message.innerText = 'Getting warmer... 💖';
-                wrapper.classList.add('hidden');
-                loveMaxed = false;
-            } else if (value < 100) {
-                emoji.innerText = '😍';
-                message.innerText = 'Awww, I love you too! 🥰';
-                wrapper.classList.add('hidden');
-                loveMaxed = false;
-            } else {
-                emoji.innerText = '🤯';
-                message.innerText = '100%?!';
-                wrapper.classList.remove('hidden');
-                
+            if (value == 0) { emoji.innerText = '🤔'; message.innerText = 'Slide to show me...'; wrapper.classList.add('hidden'); loveMaxed = false; }
+            else if (value < 30) { emoji.innerText = '🤨'; message.innerText = 'Wait... is that all? 🥺'; wrapper.classList.add('hidden'); loveMaxed = false; }
+            else if (value < 70) { emoji.innerText = '😊'; message.innerText = 'Getting warmer... 💖'; wrapper.classList.add('hidden'); loveMaxed = false; }
+            else if (value < 100) { emoji.innerText = '😍'; message.innerText = 'Awww, I love you too! 🥰'; wrapper.classList.add('hidden'); loveMaxed = false; }
+            else {
+                emoji.innerText = '🤯'; message.innerText = '100%?!'; wrapper.classList.remove('hidden');
                 if (!loveMaxed) {
                     loveMaxed = true;
                     for(let i=0; i<20; i++) {
                         setTimeout(() => {
                             const heart = document.createElement('div');
-                            heart.classList.add('heart');
-                            heart.innerText = '❤️';
-                            heart.style.left = (Math.random() * 100) + 'vw';
-                            heart.style.top = '110vh'; 
+                            heart.classList.add('heart'); heart.innerText = '❤️';
+                            heart.style.left = (Math.random() * 100) + 'vw'; heart.style.top = '110vh'; 
                             heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
                             heart.style.fontSize = (Math.random() * 2 + 2) + 'rem';
                             document.body.appendChild(heart);
-                            
                             setTimeout(() => heart.remove(), 4000);
                         }, i * 150);
                     }
-                    
-                    confetti({
-                        particleCount: 150,
-                        spread: 100,
-                        origin: { y: 0.5 },
-                        colors: ['#e11d48', '#fb7185', '#fda4af', '#fff1f2']
-                    });
+                    confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 }, colors: ['#e11d48', '#fb7185', '#fda4af', '#fff1f2'] });
                 }
             }
         }
@@ -609,7 +459,6 @@
             "The way you look at me. 👀❤️",
             "Because you are simply the best thing that ever happened to me. 🎁"
         ];
-
         let lastReasonIndex = -1;
 
         function pullNote() {
@@ -617,237 +466,258 @@
             const noteText = document.getElementById('jar-note-text');
             const jar = document.getElementById('love-jar');
             
-            // Jar wiggle animation
             jar.style.transform = 'scale(1.1) rotate(5deg)';
             setTimeout(() => jar.style.transform = 'scale(1.1) rotate(-5deg)', 100);
             setTimeout(() => jar.style.transform = 'scale(1) rotate(0deg)', 200);
 
-            // Hide note briefly if already open
             noteCard.classList.remove('scale-100');
             noteCard.classList.add('scale-0');
 
             setTimeout(() => {
                 let newIndex;
-                do {
-                    newIndex = Math.floor(Math.random() * reasons.length);
-                } while (newIndex === lastReasonIndex);
+                do { newIndex = Math.floor(Math.random() * reasons.length); } while (newIndex === lastReasonIndex);
                 lastReasonIndex = newIndex;
-
                 noteText.innerText = reasons[newIndex];
-                
                 noteCard.classList.remove('scale-0');
                 noteCard.classList.add('scale-100');
+                confetti({ particleCount: 20, spread: 60, origin: { y: 0.7 }, colors: ['#f43f5e', '#fb7185'] });
+            }, 300);
+        }
 
-                // Mini heart burst from jar
-                confetti({
-                    particleCount: 20,
-                    spread: 60,
-                    origin: { y: 0.7 },
-                    colors: ['#f43f5e', '#fb7185']
-                });
-            }, 300); // Wait for scale down before showing new note
+        // --- Trick Question Logic (Kiss) ---
+        const noBtn = document.getElementById('no-btn');
+        const trickContainer = document.getElementById('trick-container');
+        function moveNoBtn() {
+            noBtn.style.position = 'absolute';
+            const maxX = trickContainer.offsetWidth - noBtn.offsetWidth - 20;
+            const maxY = trickContainer.offsetHeight - noBtn.offsetHeight - 20;
+            noBtn.style.left = Math.max(10, Math.floor(Math.random() * maxX)) + 'px';
+            noBtn.style.top = Math.max(10, Math.floor(Math.random() * maxY)) + 'px';
+        }
+        noBtn.addEventListener('mouseover', moveNoBtn);
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveNoBtn(); });
+
+        function yesTrickClicked() {
+            const winMsg = document.getElementById('trick-win-msg');
+            winMsg.classList.remove('hidden'); winMsg.classList.add('flex');
+            confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#e11d48', '#fb7185', '#fda4af'] });
         }
 
         // --- Date Night Generator Logic ---
         const dateIdeas = [
-            "Cozy Movie Marathon & Pizza 🍕🍿",
-            "Late Night Drive & Ice Cream 🚗🍦",
-            "Fancy Dinner & Dressing Up 🥂✨",
-            "Cooking Together & Dancing in the Kitchen 🍝💃",
-            "Stargazing & Deep Conversations 🌌💖",
-            "Indoor Picnic with Lots of Snacks 🧺🍓",
-            "Movie Night at Home 💆‍♀️🕯️",
-            "Building a Blanket Fort & Cuddling 🏰🧸",
-            "Sunset Walk & Holding Hands 🌅👫",
-            "Baking Sweet Treats Together 🧁👩‍🍳"
+            "Cozy Movie Marathon & Pizza 🍕🍿", "Late Night Drive & Ice Cream 🚗🍦", "Fancy Dinner & Dressing Up 🥂✨",
+            "Cooking Together & Dancing in the Kitchen 🍝💃", "Stargazing & Deep Conversations 🌌💖", "Indoor Picnic with Lots of Snacks 🧺🍓",
+            "Movie Night at Home 💆‍♀️🕯️", "Building a Blanket Fort & Cuddling 🏰🧸", "Sunset Walk & Holding Hands 🌅👫", "Baking Sweet Treats Together 🧁👩‍🍳"
         ];
-
         let isSpinning = false;
         function spinDate() {
             if (isSpinning) return;
             isSpinning = true;
-            
-            const resultText = document.getElementById('date-result');
-            const button = document.getElementById('spin-btn');
-            
-            // Visual feedback for button
-            button.classList.add('opacity-75', 'scale-95');
-            button.innerText = "Spinning... ⏳";
-
-            let ticks = 0;
-            let maxTicks = 25; // How many times it shuffles before stopping
-            
+            const resultText = document.getElementById('date-result'); const button = document.getElementById('spin-btn');
+            button.classList.add('opacity-75', 'scale-95'); button.innerText = "Spinning... ⏳";
+            let ticks = 0; let maxTicks = 25; 
             let spinInterval = setInterval(() => {
-                // Pick a random idea and show it quickly
                 resultText.innerText = dateIdeas[Math.floor(Math.random() * dateIdeas.length)];
-                
-                // Add a little text bounce effect
-                resultText.classList.add('scale-105', 'text-rose-500');
-                setTimeout(() => resultText.classList.remove('scale-105', 'text-rose-500'), 50);
-                
+                resultText.classList.add('scale-105', 'text-rose-500'); setTimeout(() => resultText.classList.remove('scale-105', 'text-rose-500'), 50);
                 ticks++;
-                
-                // Stop spinning
                 if (ticks >= maxTicks) {
-                    clearInterval(spinInterval);
-                    isSpinning = false;
-                    
-                    // Reset button
-                    button.classList.remove('opacity-75', 'scale-95');
-                    button.innerText = "Spin Again! 🔄";
-                    
-                    // Highlight final result
-                    resultText.classList.add('text-rose-600', 'scale-110');
-                    setTimeout(() => resultText.classList.remove('scale-110'), 300);
-                    
-                    // Final celebratory pop
-                    confetti({
-                        particleCount: 80,
-                        spread: 80,
-                        origin: { y: 0.6 },
-                        colors: ['#fb7185', '#fecdd3', '#e11d48']
-                    });
+                    clearInterval(spinInterval); isSpinning = false;
+                    button.classList.remove('opacity-75', 'scale-95'); button.innerText = "Spin Again! 🔄";
+                    resultText.classList.add('text-rose-600', 'scale-110'); setTimeout(() => resultText.classList.remove('scale-110'), 300);
+                    confetti({ particleCount: 80, spread: 80, origin: { y: 0.6 }, colors: ['#fb7185', '#fecdd3', '#e11d48'] });
                 }
-            }, 100); // Speed of the shuffle
+            }, 100);
         }
 
         // --- Memory Game Logic ---
         const memoryEmojis = ['🌹', '🎁', '🥂', '🧸', '✨', '💍', '💌', '💋'];
         let gameCards = [...memoryEmojis, ...memoryEmojis];
-        let flippedCards = [];
-        let matchedPairs = 0;
-        let moves = 0;
-        let lockBoard = false;
+        let flippedCards = [], matchedPairs = 0, moves = 0, lockBoard = false;
 
         function initMemoryGame() {
-            const board = document.getElementById('memory-board');
-            const winMsg = document.getElementById('game-win-msg');
+            const board = document.getElementById('memory-board'); const winMsg = document.getElementById('game-win-msg');
             document.getElementById('game-moves').innerText = 'Moves: 0';
-            
-            board.innerHTML = '';
-            winMsg.classList.add('hidden');
-            
-            flippedCards = [];
-            matchedPairs = 0;
-            moves = 0;
-            lockBoard = false;
-
-            // Shuffle cards array
+            board.innerHTML = ''; winMsg.classList.add('hidden');
+            flippedCards = []; matchedPairs = 0; moves = 0; lockBoard = false;
             gameCards.sort(() => Math.random() - 0.5);
 
-            // Create cards
-            gameCards.forEach((emoji, index) => {
-                const card = document.createElement('div');
-                card.classList.add('memory-card', 'h-16', 'sm:h-20', 'w-full');
-                card.dataset.emoji = emoji;
-                
-                card.innerHTML = `
-                    <div class="memory-card-inner">
-                        <div class="memory-card-front">
-                            <span>❤️</span>
-                        </div>
-                        <div class="memory-card-back">
-                            <span>${emoji}</span>
-                        </div>
-                    </div>
-                `;
-                
+            gameCards.forEach((emoji) => {
+                const card = document.createElement('div'); card.classList.add('memory-card', 'h-16', 'sm:h-20', 'w-full'); card.dataset.emoji = emoji;
+                card.innerHTML = `<div class="memory-card-inner"><div class="memory-card-front"><span>❤️</span></div><div class="memory-card-back"><span>${emoji}</span></div></div>`;
                 card.addEventListener('click', () => flipCard(card));
                 board.appendChild(card);
             });
         }
 
         function flipCard(card) {
-            if (lockBoard) return;
-            if (card === flippedCards[0]) return;
-            if (card.classList.contains('flipped')) return;
-
-            card.classList.add('flipped');
-            flippedCards.push(card);
-
+            if (lockBoard || card === flippedCards[0] || card.classList.contains('flipped')) return;
+            card.classList.add('flipped'); flippedCards.push(card);
             if (flippedCards.length === 2) {
-                moves++;
-                document.getElementById('game-moves').innerText = `Moves: ${moves}`;
+                moves++; document.getElementById('game-moves').innerText = `Moves: ${moves}`;
                 checkForMatch();
             }
         }
 
         function checkForMatch() {
             const [card1, card2] = flippedCards;
-            const isMatch = card1.dataset.emoji === card2.dataset.emoji;
-
-            if (isMatch) {
-                matchedPairs++;
-                flippedCards = [];
-                
+            if (card1.dataset.emoji === card2.dataset.emoji) {
+                matchedPairs++; flippedCards = [];
                 if (matchedPairs === memoryEmojis.length) {
                     setTimeout(() => {
                         document.getElementById('game-win-msg').classList.remove('hidden');
-                        confetti({
-                            particleCount: 150,
-                            spread: 90,
-                            origin: { y: 0.6 },
-                            colors: ['#e11d48', '#fb7185', '#fda4af', '#fecdd3']
-                        });
+                        confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 }, colors: ['#e11d48', '#fb7185', '#fda4af', '#fecdd3'] });
                     }, 500);
                 }
             } else {
                 lockBoard = true;
-                setTimeout(() => {
-                    card1.classList.remove('flipped');
-                    card2.classList.remove('flipped');
-                    flippedCards = [];
-                    lockBoard = false;
-                }, 1000);
+                setTimeout(() => { card1.classList.remove('flipped'); card2.classList.remove('flipped'); flippedCards = []; lockBoard = false; }, 1000);
+            }
+        }
+        initMemoryGame();
+
+        // --- NEW: Catching Game Logic ---
+        let catchScore = 0;
+        let isCatchGameActive = false;
+        let catchItems = [];
+        let spawnInterval;
+        let catchAnimationId;
+        const catchArea = document.getElementById('catch-area');
+        const catchBasket = document.getElementById('catch-basket');
+        const scoreDisplay = document.getElementById('catch-score');
+        const catchWinScreen = document.getElementById('catch-win-screen');
+        const startCatchBtn = document.getElementById('start-catch-btn');
+
+        function moveBasket(e) {
+            if (!isCatchGameActive) return;
+            const rect = catchArea.getBoundingClientRect();
+            let clientX = e.clientX;
+            if (e.type && e.type.includes('touch') && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                if(e.cancelable) e.preventDefault(); 
+            }
+            let x = clientX - rect.left;
+            
+            const basketHalf = catchBasket.offsetWidth / 2;
+            if (x < basketHalf) x = basketHalf;
+            if (x > rect.width - basketHalf) x = rect.width - basketHalf;
+            
+            catchBasket.style.left = `${x}px`;
+        }
+
+        if(catchArea) {
+            catchArea.addEventListener('mousemove', moveBasket);
+            catchArea.addEventListener('touchmove', moveBasket, {passive: false});
+        }
+
+        function startCatchGame() {
+            if (isCatchGameActive) return;
+            isCatchGameActive = true;
+            catchScore = 0;
+            scoreDisplay.innerText = catchScore;
+            catchWinScreen.classList.add('hidden');
+            catchWinScreen.classList.remove('flex');
+            startCatchBtn.innerText = "Playing...";
+            startCatchBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            
+            catchItems.forEach(item => item.el.remove());
+            catchItems = [];
+
+            spawnInterval = setInterval(spawnItem, 600);
+            catchAnimationId = requestAnimationFrame(updateCatchGame);
+        }
+
+        function spawnItem() {
+            if(!isCatchGameActive) return;
+            const emojis = ['💋', '❤️', '💖', '✨'];
+            const el = document.createElement('div');
+            el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            el.className = 'absolute text-3xl z-10 select-none pointer-events-none';
+            
+            const startX = Math.max(10, Math.random() * (catchArea.offsetWidth - 40));
+            el.style.left = `${startX}px`;
+            el.style.top = '-30px';
+            
+            catchArea.appendChild(el);
+            
+            catchItems.push({
+                el: el,
+                x: startX,
+                y: -30,
+                speed: Math.random() * 2.5 + 2 
+            });
+        }
+
+        function updateCatchGame() {
+            if (!isCatchGameActive) return;
+            const basketRect = catchBasket.getBoundingClientRect();
+            const areaRect = catchArea.getBoundingClientRect();
+
+            for (let i = catchItems.length - 1; i >= 0; i--) {
+                const item = catchItems[i];
+                item.y += item.speed;
+                item.el.style.top = `${item.y}px`;
+
+                const itemRect = item.el.getBoundingClientRect();
+                
+                if (
+                    itemRect.bottom >= basketRect.top + 10 &&
+                    itemRect.top <= basketRect.bottom &&
+                    itemRect.right >= basketRect.left &&
+                    itemRect.left <= basketRect.right
+                ) {
+                    catchScore++;
+                    scoreDisplay.innerText = catchScore;
+                    
+                    item.el.innerText = '✨';
+                    item.el.style.transition = 'all 0.2s';
+                    item.el.style.transform = 'scale(1.5)';
+                    item.el.style.opacity = '0';
+                    
+                    const currentEl = item.el;
+                    setTimeout(() => currentEl.remove(), 200);
+                    catchItems.splice(i, 1);
+
+                    if (catchScore >= 20) {
+                        winCatchGame();
+                    }
+                } else if (item.y > areaRect.height) {
+                    item.el.remove();
+                    catchItems.splice(i, 1);
+                }
+            }
+            
+            if(isCatchGameActive) {
+                catchAnimationId = requestAnimationFrame(updateCatchGame);
             }
         }
 
-        // Initialize game when page loads
-        initMemoryGame();
-
-        // --- Eteni ya Motuna ya Bokosi (Trick Question Logic) ---
-        const noBtn = document.getElementById('no-btn');
-        const trickContainer = document.getElementById('trick-container');
-
-        function moveNoBtn() {
-            noBtn.style.position = 'absolute';
+        function winCatchGame() {
+            isCatchGameActive = false;
+            clearInterval(spawnInterval);
+            cancelAnimationFrame(catchAnimationId);
             
-            const containerRect = trickContainer.getBoundingClientRect();
-            const btnRect = noBtn.getBoundingClientRect();
-            
-            // Calculate safe boundaries
-            const maxX = containerRect.width - btnRect.width - 20;
-            const maxY = containerRect.height - btnRect.height - 20;
-            
-            // Generate random positions
-            const randomX = Math.max(10, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(10, Math.floor(Math.random() * maxY));
-            
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
-        }
-
-        // Move button when hovered over (Desktop)
-        noBtn.addEventListener('mouseover', moveNoBtn);
-        
-        // Move button when tapped (Mobile)
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); 
-            moveNoBtn();
-        });
-
-        function yesTrickClicked() {
-            const winMsg = document.getElementById('trick-win-msg');
-            winMsg.classList.remove('hidden');
-            winMsg.classList.add('flex');
+            catchWinScreen.classList.remove('hidden');
+            catchWinScreen.classList.add('flex');
             
             confetti({
                 particleCount: 150,
-                spread: 80,
+                spread: 100,
                 origin: { y: 0.6 },
                 colors: ['#e11d48', '#fb7185', '#fda4af']
             });
         }
+
+        function resetCatchGame() {
+            catchWinScreen.classList.add('hidden');
+            catchWinScreen.classList.remove('flex');
+            startCatchBtn.innerText = "Start Game";
+            startCatchBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            catchScore = 0;
+            scoreDisplay.innerText = catchScore;
+            catchItems.forEach(item => item.el.remove());
+            catchItems = [];
+        }
+
     </script>
 </body>
 </html>
