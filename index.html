@@ -65,6 +65,7 @@
             100% { transform: scale(0.9) rotate(-1deg); opacity: 0.8; }
         }
         .flame-out {
+            animation: none !important;
             opacity: 0 !important;
             transform: scale(0) !important;
             transition: all 0.5s ease-out;
@@ -110,12 +111,6 @@
         .memory-card-front { background-color: #fecdd3; transform: rotateY(0deg); font-size: 1.5rem; }
         .memory-card-front:hover { background-color: #fda4af; }
         .memory-card-back { background-color: #fff; transform: rotateY(180deg); border: 2px solid #fecdd3; font-size: 2.5rem; }
-
-        /* Canvas drawing fix for Contract */
-        .signature-pad { touch-action: none; }
-        
-        /* Lie Detector Scan Line */
-        @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
     </style>
 </head>
 <body class="text-gray-800 antialiased relative">
@@ -220,7 +215,7 @@
     </section>
 
     <!-- The Jar of Love Section -->
-    <section id="jar-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-white/40 backdrop-blur-md border-y border-rose-100">
+    <section id="jar-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-white/40 backdrop-blur-md border-y border-rose-200 shadow-sm my-8">
         <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">The Jar of Love</h2>
             <p class="text-lg text-gray-700 mb-10 italic">Tap the jar whenever you need a reminder of why I love you.</p>
@@ -255,14 +250,40 @@
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">One Important Question...</h2>
             <p class="text-lg text-gray-700 mb-8 italic">Answer honestly, baby! </p>
             <div class="max-w-md mx-auto bg-white/80 p-8 rounded-3xl shadow-lg border border-rose-200 relative min-h-[300px] flex flex-col items-center justify-center overflow-hidden" id="trick-container">
-                <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-10 nickname">Would you kiss me right now if you could?</h3>
-                <div class="flex gap-4 justify-center items-center w-full relative h-16" id="btn-wrapper">
+                <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-10 nickname text-center">Would you kiss me right now if you could?</h3>
+                <div class="flex gap-4 justify-center items-center w-full h-16" id="btn-wrapper">
                     <button onclick="yesTrickClicked()" class="bg-rose-500 text-white font-bold py-3 px-10 rounded-full hover:bg-rose-600 transition-colors shadow-lg transform hover:scale-110 text-xl z-20">YES! ❤️</button>
-                    <button id="no-btn" class="bg-gray-400 text-white font-bold py-3 px-10 rounded-full shadow-md text-xl z-20 transition-all duration-200">NO 😒</button>
+                    <button id="no-btn" class="bg-gray-400 text-white font-bold py-3 px-10 rounded-full shadow-md text-xl z-50 transition-all duration-200">NO 😒</button>
                 </div>
                 <div id="trick-win-msg" class="hidden absolute inset-0 bg-white flex-col items-center justify-center rounded-3xl z-30 transition-all duration-500">
                     <p class="text-3xl sm:text-4xl font-bold nickname text-rose-600 mb-2">Hehe… 🙈🥰</p>
                     <p class="text-lg text-gray-600">aww looks like someone really wants a kiss 😘💋</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catching Game Section -->
+    <section id="catch-game-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-rose-50/40 border-y border-rose-100 my-8">
+        <div class="max-w-3xl mx-auto text-center reveal">
+            <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">Catch My Kisses! 😘</h2>
+            <p class="text-lg text-gray-700 mb-8 italic">Move the basket and catch 20 kisses to win a special prize!</p>
+
+            <div class="max-w-md mx-auto bg-white p-4 rounded-3xl shadow-lg border-2 border-rose-200 relative overflow-hidden h-[400px] flex flex-col" id="catch-game-container">
+                <div class="flex justify-between items-center mb-2 px-4 z-10">
+                    <span class="font-bold text-rose-600 text-lg">Score: <span id="catch-score">0</span> / 20</span>
+                    <button id="start-catch-btn" onclick="startCatchGame()" class="bg-rose-500 text-white px-5 py-2 rounded-full hover:bg-rose-600 text-sm font-bold shadow-sm transition-colors">Start Game</button>
+                </div>
+                
+                <div id="catch-area" class="relative flex-1 bg-rose-50 rounded-2xl overflow-hidden border border-rose-100 cursor-crosshair touch-none shadow-inner">
+                    <div id="catch-basket" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-5xl z-20 pointer-events-none">🧺</div>
+                </div>
+
+                <div id="catch-win-screen" class="hidden absolute inset-0 bg-white/95 flex-col items-center justify-center z-30 p-6 text-center rounded-3xl transition-all duration-500">
+                    <span class="text-6xl mb-4 animate-bounce">🏆💋</span>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-rose-600 mb-2 nickname">You caught them all!</h3>
+                    <p class="text-lg text-gray-700 font-medium mb-6">When I see you, I’ll make sure to give you lots of kisses 🥰!</p>
+                    <button onclick="resetCatchGame()" class="bg-rose-100 text-rose-600 font-bold py-2 px-6 rounded-full hover:bg-rose-200 transition-colors shadow-sm">Play Again</button>
                 </div>
             </div>
         </div>
@@ -285,32 +306,7 @@
         </div>
     </section>
 
-
-    <!-- NEW: Catching Game Section -->
-    <section id="catch-game-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-rose-50/40 border-y border-rose-100 my-8">
-        <div class="max-w-3xl mx-auto text-center reveal">
-            <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">Catch My Kisses! 😘</h2>
-            <p class="text-lg text-gray-700 mb-8 italic">Move the basket and catch 20 kisses to win a special prize!</p>
-
-            <div class="max-w-md mx-auto bg-white p-4 rounded-3xl shadow-lg border-2 border-rose-200 relative overflow-hidden h-[400px] flex flex-col" id="catch-game-container">
-                <div class="flex justify-between items-center mb-2 px-4 z-10">
-                    <span class="font-bold text-rose-600 text-lg">Score: <span id="catch-score">0</span> / 20</span>
-                    <button id="start-catch-btn" onclick="startCatchGame()" class="bg-rose-500 text-white px-5 py-2 rounded-full hover:bg-rose-600 text-sm font-bold shadow-sm transition-colors">Start Game</button>
-                </div>
-                
-                <div id="catch-area" class="relative flex-1 bg-rose-50 rounded-2xl overflow-hidden border border-rose-100 cursor-crosshair touch-none shadow-inner">
-                    <div id="catch-basket" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-5xl z-20 pointer-events-none">🧺</div>
-                </div>
-
-                <div id="catch-win-screen" class="hidden absolute inset-0 bg-white/95 flex-col items-center justify-center z-30 p-6 text-center rounded-3xl transition-all duration-500">
-                    <span class="text-6xl mb-4 animate-bounce">🏆💋</span>
-                    <h3 class="text-2xl sm:text-3xl font-bold text-rose-600 mb-2 nickname">You caught them all!</h3>
-                    <p class="text-lg text-gray-700 font-medium mb-6">You deserve a million more real ones! 🥰 Come get them!</p>
-                    <button onclick="resetCatchGame()" class="bg-rose-100 text-rose-600 font-bold py-2 px-6 rounded-full hover:bg-rose-200 transition-colors shadow-sm">Play Again</button>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <!-- Footer -->
     <footer class="py-10 text-center relative z-10">
@@ -469,20 +465,43 @@
         // --- Trick Question Logic (Kiss) ---
         const noBtn = document.getElementById('no-btn');
         const trickContainer = document.getElementById('trick-container');
+        
         function moveNoBtn() {
             noBtn.style.position = 'absolute';
-            const maxX = trickContainer.offsetWidth - noBtn.offsetWidth - 20;
-            const maxY = trickContainer.offsetHeight - noBtn.offsetHeight - 20;
-            noBtn.style.left = Math.max(10, Math.floor(Math.random() * maxX)) + 'px';
-            noBtn.style.top = Math.max(10, Math.floor(Math.random() * maxY)) + 'px';
+            noBtn.style.zIndex = '50';
+            
+            const maxX = trickContainer.clientWidth - noBtn.offsetWidth - 20;
+            const maxY = trickContainer.clientHeight - noBtn.offsetHeight - 20;
+            
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
         }
+        
         noBtn.addEventListener('mouseover', moveNoBtn);
         noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveNoBtn(); });
 
         function yesTrickClicked() {
             const winMsg = document.getElementById('trick-win-msg');
-            winMsg.classList.remove('hidden'); winMsg.classList.add('flex');
-            confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#e11d48', '#fb7185', '#fda4af'] });
+            const btnWrapper = document.getElementById('btn-wrapper');
+            const questionTitle = document.querySelector('#trick-container h3');
+
+            // Hide the buttons and the question title immediately
+            if(btnWrapper) btnWrapper.style.display = 'none';
+            if(noBtn) noBtn.style.display = 'none';
+            if(questionTitle) questionTitle.style.display = 'none';
+
+            winMsg.classList.remove('hidden');
+            winMsg.classList.add('flex');
+            
+            confetti({
+                particleCount: 150,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#e11d48', '#fb7185', '#fda4af']
+            });
         }
 
         // --- Date Night Generator Logic ---
@@ -557,7 +576,7 @@
         }
         initMemoryGame();
 
-        // --- NEW: Catching Game Logic ---
+        // --- Catching Game Logic ---
         let catchScore = 0;
         let isCatchGameActive = false;
         let catchItems = [];
@@ -578,11 +597,9 @@
                 if(e.cancelable) e.preventDefault(); 
             }
             let x = clientX - rect.left;
-            
             const basketHalf = catchBasket.offsetWidth / 2;
             if (x < basketHalf) x = basketHalf;
             if (x > rect.width - basketHalf) x = rect.width - basketHalf;
-            
             catchBasket.style.left = `${x}px`;
         }
 
@@ -600,10 +617,8 @@
             catchWinScreen.classList.remove('flex');
             startCatchBtn.innerText = "Playing...";
             startCatchBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            
             catchItems.forEach(item => item.el.remove());
             catchItems = [];
-
             spawnInterval = setInterval(spawnItem, 600);
             catchAnimationId = requestAnimationFrame(updateCatchGame);
         }
@@ -614,79 +629,48 @@
             const el = document.createElement('div');
             el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             el.className = 'absolute text-3xl z-10 select-none pointer-events-none';
-            
             const startX = Math.max(10, Math.random() * (catchArea.offsetWidth - 40));
             el.style.left = `${startX}px`;
             el.style.top = '-30px';
-            
             catchArea.appendChild(el);
-            
-            catchItems.push({
-                el: el,
-                x: startX,
-                y: -30,
-                speed: Math.random() * 2.5 + 2 
-            });
+            catchItems.push({ el: el, x: startX, y: -30, speed: Math.random() * 2.5 + 2 });
         }
 
         function updateCatchGame() {
             if (!isCatchGameActive) return;
             const basketRect = catchBasket.getBoundingClientRect();
             const areaRect = catchArea.getBoundingClientRect();
-
             for (let i = catchItems.length - 1; i >= 0; i--) {
                 const item = catchItems[i];
                 item.y += item.speed;
                 item.el.style.top = `${item.y}px`;
-
                 const itemRect = item.el.getBoundingClientRect();
-                
-                if (
-                    itemRect.bottom >= basketRect.top + 10 &&
-                    itemRect.top <= basketRect.bottom &&
-                    itemRect.right >= basketRect.left &&
-                    itemRect.left <= basketRect.right
-                ) {
+                if (itemRect.bottom >= basketRect.top + 10 && itemRect.top <= basketRect.bottom && itemRect.right >= basketRect.left && itemRect.left <= basketRect.right) {
                     catchScore++;
                     scoreDisplay.innerText = catchScore;
-                    
                     item.el.innerText = '✨';
                     item.el.style.transition = 'all 0.2s';
                     item.el.style.transform = 'scale(1.5)';
                     item.el.style.opacity = '0';
-                    
                     const currentEl = item.el;
                     setTimeout(() => currentEl.remove(), 200);
                     catchItems.splice(i, 1);
-
-                    if (catchScore >= 20) {
-                        winCatchGame();
-                    }
+                    if (catchScore >= 20) winCatchGame();
                 } else if (item.y > areaRect.height) {
                     item.el.remove();
                     catchItems.splice(i, 1);
                 }
             }
-            
-            if(isCatchGameActive) {
-                catchAnimationId = requestAnimationFrame(updateCatchGame);
-            }
+            if(isCatchGameActive) catchAnimationId = requestAnimationFrame(updateCatchGame);
         }
 
         function winCatchGame() {
             isCatchGameActive = false;
             clearInterval(spawnInterval);
             cancelAnimationFrame(catchAnimationId);
-            
             catchWinScreen.classList.remove('hidden');
             catchWinScreen.classList.add('flex');
-            
-            confetti({
-                particleCount: 150,
-                spread: 100,
-                origin: { y: 0.6 },
-                colors: ['#e11d48', '#fb7185', '#fda4af']
-            });
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors: ['#e11d48', '#fb7185', '#fda4af'] });
         }
 
         function resetCatchGame() {
@@ -699,7 +683,6 @@
             catchItems.forEach(item => item.el.remove());
             catchItems = [];
         }
-
     </script>
 </body>
 </html>
