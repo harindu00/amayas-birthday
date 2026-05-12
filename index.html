@@ -19,6 +19,15 @@
         .nickname {
             font-family: 'Dancing Script', cursive;
         }
+
+        /* Styling the Audio Player to match the theme */
+        .custom-audio {
+            width: 100%;
+            max-width: 300px;
+            height: 40px;
+            border-radius: 20px;
+            filter: sepia(20%) saturate(70%) hue-rotate(300deg) brightness(110%);
+        }
         
         /* Floating hearts animation */
         .heart {
@@ -121,15 +130,22 @@
 </head>
 <body class="text-gray-800 antialiased relative">
 
-    <!-- Background decorative blur -->
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-rose-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
         <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 2s;"></div>
     </div>
 
-    <!-- Hero Section -->
     <header class="min-h-screen flex flex-col items-center justify-center relative px-4 sm:px-6 lg:px-8 text-center z-10">
         <div class="reveal active max-w-3xl mx-auto space-y-6 bg-white/40 backdrop-blur-sm p-10 sm:p-16 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/50">
+            
+            <div class="flex flex-col items-center gap-2 mb-4">
+                <p class="text-rose-400 text-xs uppercase tracking-widest font-bold">Press Play ♫</p>
+                <audio controls class="custom-audio">
+                    <source src="music.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
             <p class="text-rose-500 font-medium tracking-widest uppercase text-sm sm:text-base">To the most beautiful girl</p>
             <h1 class="text-5xl sm:text-7xl font-bold text-gray-900 mb-4 leading-tight">
                 Happy Birthday, <br/>
@@ -146,7 +162,6 @@
         </div>
     </header>
 
-    <!-- Cake Section -->
     <section id="cake-section" class="py-20 px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center justify-center min-h-[60vh]">
         <div class="reveal text-center mb-12">
             <h2 class="text-4xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">Make a Wish, Sosamala! ✨</h2>
@@ -183,7 +198,6 @@
         </div>
     </section>
 
-    <!-- Letter / Message Section -->
     <section id="message-section" class="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-4xl mx-auto">
             <div class="reveal bg-white rounded-3xl shadow-xl p-8 sm:p-12 md:p-16 border-t-8 border-rose-400 relative">
@@ -201,7 +215,6 @@
         </div>
     </section>
 
-    <!-- Interactive Love Meter Section -->
     <section id="interactive-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-white/40 backdrop-blur-md border-y border-rose-200 shadow-sm my-8">
         <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">A Quick Question...</h2>
@@ -220,7 +233,6 @@
         </div>
     </section>
 
-    <!-- The Jar of Love Section -->
     <section id="jar-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-white/40 backdrop-blur-md border-y border-rose-200 shadow-sm my-8">
         <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">The Jar of Love</h2>
@@ -250,7 +262,6 @@
         </div>
     </section>
 
-    <!-- Trick Question Section -->
     <section id="trick-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-rose-50/40 border-y border-rose-100 my-8">
         <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">One Important Question...</h2>
@@ -269,7 +280,6 @@
         </div>
     </section>
 
-    <!-- Catching Game Section -->
     <section id="catch-game-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-rose-50/40 border-y border-rose-100 my-8">
         <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">Catch My Kisses! 😘</h2>
@@ -295,7 +305,6 @@
         </div>
     </section>
 
-    <!-- Date Night Generator Section -->
     <section id="date-generator-section" class="py-16 px-4 sm:px-6 lg:px-8 relative z-10 bg-rose-50/40 border-y border-rose-100">
        <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl sm:text-5xl font-bold text-rose-800 mb-4 romantic-text">When We're Together...</h2>
@@ -312,14 +321,12 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="py-10 text-center relative z-10">
         <p class="text-rose-400 font-medium flex items-center justify-center gap-2">
             Made with <span class="text-red-500 animate-pulse">❤️</span> just for you.
         </p>
     </footer>
 
-    <!-- Interactive JavaScript -->
     <script>
         // --- Scroll Reveal Logic ---
         function reveal() {
@@ -492,7 +499,6 @@
             const btnWrapper = document.getElementById('btn-wrapper');
             const questionTitle = document.querySelector('#trick-container h3');
 
-            // Hide the buttons and the question title immediately
             if(btnWrapper) btnWrapper.style.display = 'none';
             if(noBtn) noBtn.style.display = 'none';
             if(questionTitle) questionTitle.style.display = 'none';
@@ -535,11 +541,9 @@
             let x = clientX - rect.left;
             const basketWidth = catchBasket.offsetWidth;
             
-            // Boundary constraints
             if (x < basketWidth / 2) x = basketWidth / 2;
             if (x > rect.width - basketWidth / 2) x = rect.width - basketWidth / 2;
             
-            // Set position (Basket is centered based on X)
             catchBasket.style.left = (x - basketWidth / 2) + 'px';
         }
 
@@ -559,7 +563,6 @@
             catchItems.forEach(item => item.el.remove());
             catchItems = [];
             
-            // Reset basket to center
             catchBasket.style.left = (catchArea.clientWidth / 2 - catchBasket.offsetWidth / 2) + 'px';
 
             spawnInterval = setInterval(spawnItem, 600);
@@ -590,7 +593,6 @@
                 item.el.style.top = `${item.y}px`;
                 const itemRect = item.el.getBoundingClientRect();
 
-                // Collision detection
                 if (itemRect.bottom >= basketRect.top + 10 && 
                     itemRect.top <= basketRect.bottom && 
                     itemRect.right >= basketRect.left && 
@@ -599,7 +601,6 @@
                     catchScore++;
                     scoreDisplay.innerText = catchScore;
                     
-                    // Visual pop effect
                     item.el.innerText = '✨';
                     item.el.style.transition = 'all 0.2s';
                     item.el.style.transform = 'scale(1.8)';
